@@ -7,7 +7,7 @@ function tampilkanPeminjaman() {
     peminjamanList.forEach((peminjaman) => {
         const row = tabel.insertRow();
         row.innerHTML = `
-            <td>${peminjaman.absen_siswa}</td>
+            <td>${peminjaman.id_siswa}</td>
             <td>${peminjaman.nama_siswa}</td>
             <td>${peminjaman.barang}</td>
             <td>${peminjaman.jumlah}</td>
