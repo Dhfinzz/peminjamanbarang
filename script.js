@@ -58,3 +58,15 @@ document.getElementById('pinjamForm').addEventListener('submit', function(e) {
 
 // Panggil fungsi untuk menampilkan data peminjaman saat halaman dimuat
 window.onload = tampilkanPeminjaman;
+// Menambahkan data barang dengan jumlah stok
+const barangList = [
+    { nama: 'Laptop', stok: 10 },
+    { nama: 'Proyektor', stok: 5 },
+    { nama: 'Meja', stok: 15 }
+];
+
+// Simpan barangList ke localStorage (jika belum ada)
+if (!localStorage.getItem('barang')) {
+    localStorage.setItem('barang', JSON.stringify(barangList));
+}
+
