@@ -3,72 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Peminjaman Barang Sekolah</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Web Peminjaman Barang Sekolah</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 8px 12px;
+            text-align: left;
+        }
+        button {
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Daftar Barang</h2>
-<table id="daftar-barang">
-    <thead>
-        <tr>
-            <th>Barang</th>
-            <th>Jumlah Stok</th>
-        </tr>
-    </thead>
-    <tbody>
-        <!-- Data barang akan muncul di sini -->
-    </tbody>
-</table>
 
-        <h1>Peminjaman Barang Sekolah</h1>
-        
-        <!-- Form Peminjaman -->
-        <form id="pinjamForm">
-            <label for="id_siswa">ID Siswa:</label>
-            <input type="text" id="id_siswa" required><br>
+    <h1>Daftar Peminjaman Barang Sekolah</h1>
+    <p>Berikut adalah daftar barang yang dapat dipinjam oleh siswa:</p>
 
-            <label for="nama_siswa">Nama Siswa:</label>
-            <input type="text" id="nama_siswa" required><br>
+    <!-- Tabel daftar barang -->
+    <table id="daftar-barang">
+        <thead>
+            <tr>
+                <th>Barang</th>
+                <th>Jumlah Stok</th>
+                <th>Pinjam</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data barang akan diisi melalui JavaScript -->
+        </tbody>
+    </table>
 
-            <label for="barang">Barang:</label>
-            <select id="barang" required>
-                <option value="">Pilih Barang</option>
-                <option value="Laptop">Laptop</option>
-                <option value="Proyektor">Proyektor</option>
-                <option value="Meja">Meja</option>
-            </select><br>
+    <script>
+        // Daftar barang dan stok awal (akan disimpan di localStorage)
+        const barangList = [
+            { nama: "Laptop", stok: 10 },
+            { nama: "Proyektor", stok: 5 },
+            { nama: "Meja", stok: 15 },
+            { nama: "Kursi", stok: 20 }
+        ];
 
-            <label for="jumlah">Jumlah:</label>
-            <input type="number" id="jumlah" min="1" required><br>
+        // Cek apakah data barang sudah ada di localStorage
+        if (!localStorage.getItem('barang')) {
+            localStorage.setItem('barang', JSON.stringify(barangList));
+        }
 
-           <label for="tgl_pinjam">Tanggal dan Jam Pinjam:</label>
-    <input type="datetime-local" id="tgl_pinjam" required><br><br>
+        // Fungsi untuk menampilkan daftar barang
+        function tampilkanBarang() {
+            // Ambil data barang dari localStorage
+            const barangList = JSON.parse(localStorage.getItem('barang')) || [];
 
-           <label for="tgl_kembali">Tanggal dan Jam Kembali:</label>
-    <input type="datetime-local" id="tgl_kembali" required><br><br>
+            // Ambil referensi ke tbody tabel
+            const tabel = document.getElementById('daftar-barang').getElementsByTagName('tbody')[0];
+            tabel.innerHTML = '';  // Bersihkan tabel sebelum menambah data baru
 
-            <button type="submit">Pinjam Barang</button>
-        </form>
+            // Menambahkan baris data barang ke dalam tabel
+            barangList.forEach((barang, index) => {
+                const row = tabel.insertRow();
+                row.innerHTML = `
+                    <td>${barang.nama}</td>
+                    <td>${barang.stok}</td>
+                    <td><button onclick="pinjamBarang(${index})" ${barang.stok === 0 ? 'disabled' : ''}>Pinjam</button></td>
+                `;
+            });
+        }
 
-        <h2>Daftar Peminjaman</h2>
-        <table id="daftar-peminjaman">
-            <thead>
-                <tr>
-                    <th>ID Siswa</th>
-                    <th>Nama Siswa</th>
-                    <th>Barang</th>
-                    <th>Jumlah</th>
-                    <th>Tanggal Pinjam</th>
-                    <th>Tanggal Kembali</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Daftar peminjaman akan muncul di sini -->
-            </tbody>
-        </table>
-    </div>
+        // Fungsi untuk meminjam barang
+        function pinjamBarang(index) {
+            const barangList = JSON.parse(localStorage.getItem('barang')) || [];
 
-    <script src="script.js"></script>
+            if (barangList[index].stok > 0) {
+                barangList[index].stok -= 1; // Kurangi stok barang
+                localStorage.setItem('barang', JSON.stringify(barangList)); // Simpan perubahan ke localStorage
+                alert(`Berhasil meminjam ${barangList[index].nama}. Stok sekarang: ${barangList[index].stok}`);
+                tampilkanBarang();  // Update tampilan daftar barang
+            } else {
+                alert('Barang tidak tersedia untuk dipinjam!');
+            }
+        }
+
+        // Panggil fungsi untuk menampilkan daftar barang saat halaman dimuat
+        window.onload = tampilkanBarang;
+    </script>
+
 </body>
 </html>
