@@ -25,6 +25,8 @@ document.getElementById('pinjamForm').addEventListener('submit', function(e) {
     const nama_siswa = document.getElementById('nama_siswa').value;
     const barang = document.getElementById('barang').value;
     const jumlah = document.getElementById('jumlah').value;
+
+    // Ambil tanggal dan jam pinjam dari input datetime-local
     const tgl_pinjam = document.getElementById('tgl_pinjam').value;
     const tgl_kembali = document.getElementById('tgl_kembali').value;
 
@@ -34,8 +36,8 @@ document.getElementById('pinjamForm').addEventListener('submit', function(e) {
         nama_siswa,
         barang,
         jumlah,
-        tgl_pinjam,
-        tgl_kembali
+        tgl_pinjam,  // Simpan tanggal dan waktu peminjaman
+        tgl_kembali  // Simpan tanggal dan waktu pengembalian
     };
 
     // Ambil data peminjaman dari localStorage
