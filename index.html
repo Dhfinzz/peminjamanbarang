@@ -71,14 +71,10 @@
 
         // Fungsi untuk menampilkan daftar barang
         function tampilkanBarang() {
-            // Ambil data barang dari localStorage
             const barangList = JSON.parse(localStorage.getItem('barang')) || [];
-
-            // Ambil referensi ke tbody tabel
             const tabel = document.getElementById('daftar-barang').getElementsByTagName('tbody')[0];
             tabel.innerHTML = '';  // Bersihkan tabel sebelum menambah data baru
 
-            // Menambahkan baris data barang ke dalam tabel
             barangList.forEach((barang, index) => {
                 const row = tabel.insertRow();
                 row.innerHTML = `
@@ -106,6 +102,10 @@
         // Panggil fungsi untuk menampilkan daftar barang saat halaman dimuat
         window.onload = tampilkanBarang;
     </script>
+
+</body>
+</html>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
